@@ -13,7 +13,7 @@ permissions:
 jobs:
   check-tag:
     # ❗ Skip workflow if last commit is the changelog commit
-    #if: "!startsWith(github.event.head_commit.message, 'chore: update changelog')"
+    if: "!startsWith(github.event.head_commit.message, 'chore: update changelog')"
     runs-on: ubuntu-latest
     outputs:
       tag_exists: ${{ steps.tagcheck.outputs.tag_exists }}
@@ -46,7 +46,7 @@ jobs:
           fi
   version-release:
     needs: check-tag
-    if: needs.check-tag.outputs.tagcheck == 'false'
+    if: needs.check-tag.outputs.tag_exists == 'false'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -59,6 +59,11 @@ jobs:
       - name: Show downloaded files
         run: ls -R downloaded_assets
 
+      - name: Install git-cliff
+        uses: taiki-e/install-action@v2
+        with:
+          tool: git-cliff
+ 
       - name: Update CHANGELOG.md
         run: git-cliff -o CHANGELOG.md
 
