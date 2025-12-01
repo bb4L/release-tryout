@@ -13,7 +13,7 @@ permissions:
 jobs:
   check-tag:
     # ❗ Skip workflow if last commit is the changelog commit
-    if: "!startsWith(github.event.head_commit.message, 'chore: update changelog')"
+    #if: "!startsWith(github.event.head_commit.message, 'chore: update changelog')"
     runs-on: ubuntu-latest
     outputs:
       tag_exists: ${{ steps.tagcheck.outputs.tag_exists }}
