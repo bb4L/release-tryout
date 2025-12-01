@@ -7,8 +7,8 @@ on:
         required: true
         type: string
 
-#permissions:
-#  contents: write
+permissions:
+  contents: write
 
 jobs:
   check-tag:
@@ -46,7 +46,7 @@ jobs:
     needs: check-tag
     if: needs.check-tag.outputs.tag_exists == 'false'
     runs-on: ubuntu-latest
-    jobs:
+    steps:
       - uses: actions/checkout@v4
       - name: Download artifact passed from caller
         uses: actions/download-artifact@v4
