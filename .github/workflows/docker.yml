@@ -4,7 +4,7 @@ name: Docker build and push
 on:
   push:
     tags:
-      - '*.*.*'
+      - '*'
 
 jobs:
   build-and-push-image:
