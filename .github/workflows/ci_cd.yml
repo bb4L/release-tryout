@@ -1,0 +1,33 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+env:
+  CARGO_TERM_COLOR: always
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docker image
+        run: |
+          docker build -t test_build .
+      - name: create artefact
+        run: |
+          echo "asdf" >> artifact.txt
+      - name: Upload asset for release workflow
+        uses: actions/upload-artifact@v4
+        with:
+          name: built-asset
+          path: artifact.txt
+  call-release-workflow:
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/release.yml
+    with:
+      artifact_name: built-asset
