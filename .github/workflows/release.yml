@@ -71,7 +71,7 @@ jobs:
         id: notes
         run: |
           # Generate release notes ONLY for the new version
-          git-cliff --tag "${{ needs.check-tag.outputs.next_version }}" --stdout > release_notes.md
+          git-cliff --unreleased --tag "${{ needs.check-tag.outputs.next_version }}" -o release_notes.md
           echo "notes<<EOF" >> $GITHUB_OUTPUT
           cat release_notes.md >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
