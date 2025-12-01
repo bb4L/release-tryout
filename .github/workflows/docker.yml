@@ -1,9 +1,9 @@
 
-name: Dcoker build and push
+name: Docker build and push
 
 on:
   push:
-    tags: ['v*.*.*']
+    tags: ['*.*.*']
 
 jobs:
   build-and-push-image:
