@@ -64,9 +64,9 @@ jobs:
         with:
           tool: git-cliff
  
-      - name: Update CHANGELOG.md
-        run: git-cliff -o CHANGELOG.md
-
+#      - name: Update CHANGELOG.md
+#        run: |
+#          git-cliff --unreleased --tag "${{ needs.check-tag.outputs.next_version }}" -p CHANGELOG.md
       - name: Extract release notes for this version
         id: notes
         run: |
@@ -80,6 +80,7 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
+          git-cliff --unreleased --tag "${{ needs.check-tag.outputs.next_version }}" -p CHANGELOG.md
 
           git add CHANGELOG.md
           git commit -m "chore: update changelog for version ${{ needs.check-tag.outputs.next_version }}" \
